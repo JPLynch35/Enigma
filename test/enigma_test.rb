@@ -1,8 +1,10 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require './lib/enigma'
 require './lib/offset'
 require './lib/key'
-require 'pry'
 
-class EnigmaTest
+class EnigmaTest < Minitest::Test
+  def
+  end
 end
