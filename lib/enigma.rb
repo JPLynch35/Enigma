@@ -1,9 +1,9 @@
 class Enigma
-
+  @character_map = {} 
 
   def encrypt(my_message, a = 5.times.map { rand(1..9) }, Date.today)
-    generate_key
-    calculate_offset
+    @shift
+
   end
 
   def decrypt
@@ -13,6 +13,6 @@ class Enigma
   end
 
   def create_shift
-    #combine key and offset
+    #combine base_rotation and offset into [11, 22, 33, 44]
   end
 end
