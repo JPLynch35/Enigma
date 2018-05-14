@@ -1,3 +1,6 @@
+require 'lib/key'
+require 'lib/offset'
+
 class Enigma
 
   def initialize
