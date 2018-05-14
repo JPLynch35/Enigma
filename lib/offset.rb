@@ -15,7 +15,7 @@ class Offset
 
   def calculate_offset
     generate_date_number
-    squared_time_array = (@date_number ** 2).to_s.chars
+    squared_time_array = (@date_number**2).to_s.chars
     offset = squared_time_array[-4..-1]
   end
 
