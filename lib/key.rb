@@ -5,7 +5,7 @@ class Key
   end
 
   def generate_key(encrypt_key)
-    if encrypt_key = 'random'
+    if encrypt_key == 'random'
       key = 5.times.map{rand(10)}
       @key = key.to_s
     else
