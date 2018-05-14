@@ -11,10 +11,10 @@ class Offset
     else
       @date = encrypt_date
     end
-      day = @date.day.to_s.rjust(2, '0')
-      month = @date.month.to_s.rjust(2, '0')
-      year = @date.year.to_s[-2..-1]
-      @date_number = (day + month + year).to_i
+    day = @date.day.to_s.rjust(2, '0')
+    month = @date.month.to_s.rjust(2, '0')
+    year = @date.year.to_s[-2..-1]
+    @date_number = (day + month + year).to_i
   end
 
   def calculate_offset(date)
