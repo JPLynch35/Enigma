@@ -4,6 +4,8 @@ require 'lib/offset'
 class Enigma
 
   def initialize
+    @five_digit_key = Key.new
+    @date_offset = Offset.new
     @base_character_map = {
                     "A" => "A",
                     "B" => "B",
@@ -91,11 +93,9 @@ class Enigma
                     "\\" => "\\",
                     "|" => "|"
                      }
-    @five_digit_key = Key.new
-    @date_offset = Offset.new
   end
 
-  def total_rotations
+  def add_base_rotations_and_offsets
     a_total_rotation = a_base_rotation + a_offset
     b_total_rotation = b_base_rotation + b_offset
     c_total_rotation = c_base_rotation + c_offset
@@ -103,21 +103,18 @@ class Enigma
     @total_rotation_array = [a_total_rotation, b_total_rotation, c_total_rotation, d_total_rotation]
   end
 
-  def calculate_character_map
+  def calculate_single_character_map
     # creates the encryption character map for each rotation (set current rotation equal to a_total_rotation, then b_total_rotation, etc)
-    current_index = 0
-    current_encryption_map = @base_character_map.transform_values do
-      expected_valuetobe_index = current_index + current_rotation
-      while expected_valuetobe_index > 84
-        expected_valuetobe_index -= 85
+    current_encryption_map = @base_character_map.transform_values.with_index do |current_value, current_index|
+      value_to_be_index = current_index + current_rotation
+      while value_to_be_index > 84
+        value_to_be_index -= 85
       end
-      current_index += 1
-      @base_character_map.values[expected_valuetobe_index]
+      @base_character_map.values[value_to_be_index]
     end
     current_encryption_map
-  end
 
-  def store_all_encryption_character_maps
+  def iterate_through_all_character_map_creations
     # runs through all rotations (a thru d) and calls upon calculate_character_map to create the character maps, stores all 4 in an array
     @encryption_character_maps = @total_rotation_array.map do |current_rotation|
       calculate_character_map
