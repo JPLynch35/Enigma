@@ -4,8 +4,8 @@ require 'lib/offset'
 class Enigma
 
   def initialize
-    @five_digit_key = Key.new
-    @date_offset = Offset.new
+    @key_for_code = Key.new
+    @date_for_code = Offset.new
     @base_character_map = {
                     "A" => "A",
                     "B" => "B",
@@ -95,12 +95,32 @@ class Enigma
                      }
   end
 
+  def encrypt(my_message, encrypt_key = 'random', date = Date.today)
+    @base_rotation_array = @key_for_code.calculate_base_rotation(encrypt_key)
+    @offset_array = @date_for_code.calculate_offset
+    add_base_rotations_and_offsets
+    create_all_character_map_creations
+    encrypted_message = []
+    my_message_array = my_message.chars
+    my_message_array.each_with_index do |character, index|
+      utilize_correct_character_map(character, index)
+    end
+    encrypted_message.join
+  end
+
   def add_base_rotations_and_offsets
-    a_total_rotation = a_base_rotation + a_offset
-    b_total_rotation = b_base_rotation + b_offset
-    c_total_rotation = c_base_rotation + c_offset
-    d_total_rotation = d_base_rotation + d_offset
+    a_total_rotation = @base_rotation_array[0] + @offset_array[0]
+    b_total_rotation = @base_rotation_array[1] + @offset_array[1]
+    c_total_rotation = @base_rotation_array[2] + @offset_array[2]
+    d_total_rotation = @base_rotation_array[3] + @offset_array[3]
     @total_rotation_array = [a_total_rotation, b_total_rotation, c_total_rotation, d_total_rotation]
+  end
+
+  def create_all_character_map_creations
+    # runs through all rotations (a thru d) and calls upon calculate_character_map to create the character maps, stores all 4 in an array
+    @encryption_character_maps = @total_rotation_array.map do |current_rotation|
+      calculate_single_character_map
+    end
   end
 
   def calculate_single_character_map
@@ -113,37 +133,23 @@ class Enigma
       @base_character_map.values[value_to_be_index]
     end
     current_encryption_map
-
-  def iterate_through_all_character_map_creations
-    # runs through all rotations (a thru d) and calls upon calculate_character_map to create the character maps, stores all 4 in an array
-    @encryption_character_maps = @total_rotation_array.map do |current_rotation|
-      calculate_character_map
-    end
   end
 
-  def encrypt(my_message, key = @five_digit_key, date = @date_offset)
-    my_message_array = my_message.chars
-    encrypted_message = []
-    my_message_array.each_with_index do |character, index|
-      if index % 4 == 0
-        encrypted_message << @encryption_character_maps[0][character]
-      elsif index % 4 == 1
-        encrypted_message << @encryption_character_maps[1][character]
-      elsif index % 4 == 2
-        encrypted_message << @encryption_character_maps[2][character]
-      elsif index % 4 == 3
-        encrypted_message << @encryption_character_maps[3][character]
-      end
+  def utilize_correct_character_map(character, index)
+    if index % 4 == 0
+      encrypted_message << @encryption_character_maps[0][character]
+    elsif index % 4 == 1
+      encrypted_message << @encryption_character_maps[1][character]
+    elsif index % 4 == 2
+      encrypted_message << @encryption_character_maps[2][character]
+    elsif index % 4 == 3
+      encrypted_message << @encryption_character_maps[3][character]
     end
-    encrypted_message.join
-  end
 
   def decrypt
-
   end
 
   def crack
-
   end
 
   def create_shift
