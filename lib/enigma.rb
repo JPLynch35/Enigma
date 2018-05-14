@@ -95,9 +95,9 @@ class Enigma
                      }
   end
 
-  def encrypt(my_message, encrypt_key = 'random', date = Date.today)
+  def encrypt(my_message, encrypt_key = 'random', encrypt_date = 'today')
     @base_rotation_array = @key_for_code.calculate_base_rotation(encrypt_key)
-    @offset_array = @date_for_code.calculate_offset
+    @offset_array = @date_for_code.calculate_offset(encrypt_date)
     add_base_rotations_and_offsets
     create_all_character_map_creations
     encrypted_message = []
