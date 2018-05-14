@@ -1,16 +1,23 @@
 class Key
   attr_reader :key
+              :base_rotations
+
   def initialize
-   base_rotations = []
+    @base_rotations = []
   end
 
-  def random_5_digit_number
-     key = 5.times.map { rand(1..9) }
+  def generate_key(key = 5.times.map{rand(10)})
+     @key = key.to_s
+     # key = 5.times.map { rand(1..9) }
      #output 5d key
   end
 
-  def generate_base_rotation
-    base_rotations = [key[i], key[i+1]].join
-    # output base_rotation []
+  def calculate_base_rotation(generate_key)
+    4.times do |i|
+      offset = [generate_key[i], generate_key[i+1]].join
+      @base_rotations << offset
+    end
+    @base_rotations
   end
+
 end
