@@ -42,6 +42,13 @@ class EnigmaTest < Minitest::Test
     refute_equal "asy18M]>x2q>?", encrypt4
   end
 
+  def test_can_decrypt_sentence
+    e1 = Enigma.new
+    decrypt1 = e1.decrypt("n8^J?)]I5^Rc|5[>|F", "12345", Date.today)
+
+    assert_equal "This works!..end..", decrypt1
+  end
+
   def test_can_crack_encryption_with_a_given_date
     e1 = Enigma.new
     e2 = Enigma.new
@@ -58,20 +65,20 @@ class EnigmaTest < Minitest::Test
     assert_equal "Hello?..end..", crack4
   end
 
-    def test_can_crack_encryption_without_a_given_date
-      e1 = Enigma.new
-      e2 = Enigma.new
-      e3 = Enigma.new
-      e4 = Enigma.new
-      crack1 = e1.crack("n8^J?)]I5^Rc|5[>|F")
-      crack2 = e2.crack(" B.DX;$%o:>DE|>!oB)(o](2VM[^I[PEp](3pZ")
-      crack3 = e3.crack("gyUr %]3Q%y3:pC)/^*wv^V")
-      crack4 = e4.crack("asy18M]>x2q>?")
+  def test_can_crack_encryption_without_a_given_date
+    e1 = Enigma.new
+    e2 = Enigma.new
+    e3 = Enigma.new
+    e4 = Enigma.new
+    crack1 = e1.crack("n8^J?)]I5^Rc|5[>|F")
+    crack2 = e2.crack(" B.DX;$%o:>DE|>!oB)(o](2VM[^I[PEp](3pZ")
+    crack3 = e3.crack("gyUr %]3Q%y3:pC)/^*wv^V")
+    crack4 = e4.crack("asy18M]>x2q>?")
 
-      assert_equal "This works!..end..", crack1
-      assert_equal "And this is also now encrypted!..end..", crack2
-      assert_equal "Or is it? It is!..end..", crack3
-      assert_equal "Hello?..end..", crack4
-    end
+    assert_equal "This works!..end..", crack1
+    assert_equal "And this is also now encrypted!..end..", crack2
+    assert_equal "Or is it? It is!..end..", crack3
+    assert_equal "Hello?..end..", crack4
+  end
 
 end
