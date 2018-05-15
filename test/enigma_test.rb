@@ -44,9 +44,18 @@ class EnigmaTest < Minitest::Test
 
   def test_can_decrypt_sentence
     e1 = Enigma.new
+    e2 = Enigma.new
+    e3 = Enigma.new
+    e4 = Enigma.new
     decrypt1 = e1.decrypt("n8^J?)]I5^Rc|5[>|F", "12345", Date.today)
+    decrypt2 = e2.decrypt(, "54321", Date.today)
+    decrypt3 = e3.decrypt()
+    decrypt4 = e4.decrypt()
 
     assert_equal "This works!..end..", decrypt1
+    assert_equal "And this is also now encrypted!..end..", decrypt2
+    assert_equal "Or is it? It is!..end..", decrypt3
+    assert_equal "This works!..end..", decrypt4
   end
 
   def test_can_crack_encryption_with_a_given_date

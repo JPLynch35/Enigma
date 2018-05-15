@@ -2,7 +2,8 @@ require './lib/key'
 require './lib/offset'
 
 class Enigma
-  attr_reader :encrypt_key
+  attr_reader :encrypt_key,
+              :encrypt_date
 
   def initialize
     @key_for_code = Key.new
@@ -97,7 +98,9 @@ class Enigma
 
   def encrypt(my_message, encrypt_key = 'random', encrypt_date = 'today')
     @base_rotation_array = @key_for_code.calculate_base_rotation(encrypt_key)
+    @encrypt_key =@key_for_code.key
     @offset_array = @offset_for_code.calculate_offset(encrypt_date)
+    @encrypt_date = @offset_for_code.date_number
     calculate_total_rotations
     create_all_character_map_creations
     rotate_message(my_message)
