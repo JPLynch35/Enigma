@@ -46,20 +46,32 @@ class EnigmaTest < Minitest::Test
     e1 = Enigma.new
     e2 = Enigma.new
     e3 = Enigma.new
+    e4 = Enigma.new
     decrypt1 = e1.decrypt("n8^J?)]I5^Rc|5[>|F", "12345", Date.today)
     decrypt2 = e2.decrypt(" B.DX;$%o:>DE|>!oB)(o](2VM[^I[PEp](3pZ", "54321", Date.today)
     decrypt3 = e3.decrypt("gyUr %]3Q%y3:pC)/^*wv^V", "10405", Date.today)
+    decrypt4 = e4.decrypt("asy18M]>x2q>?", "11111")
 
     assert_equal "This works!..end..", decrypt1
     assert_equal "And this is also now encrypted!..end..", decrypt2
     assert_equal "Or is it? It is!..end..", decrypt3
+    assert_equal "Hello?..end..", decrypt4
   end
 
   def test_can_decrypt_message_without_date
     e1 = Enigma.new
-    decrypt1 = e1.decrypt("asy18M]>x2q>?", "11111")
+    e2 = Enigma.new
+    e3 = Enigma.new
+    e4 = Enigma.new
+    decrypt1 = e1.decrypt("n8^J?)]I5^Rc|5[>|F", "12345")
+    decrypt2 = e2.decrypt(" B.DX;$%o:>DE|>!oB)(o](2VM[^I[PEp](3pZ", "54321")
+    decrypt3 = e3.decrypt("gyUr %]3Q%y3:pC)/^*wv^V", "10405")
+    decrypt4 = e4.decrypt("asy18M]>x2q>?", "11111")
 
-    assert_equal "Hello?..end..", decrypt1
+    assert_equal "This works!..end..", decrypt1
+    assert_equal "And this is also now encrypted!..end..", decrypt2
+    assert_equal "Or is it? It is!..end..", decrypt3
+    assert_equal "Hello?..end..", decrypt4
   end
 
   def test_can_crack_encryption_with_a_given_date
