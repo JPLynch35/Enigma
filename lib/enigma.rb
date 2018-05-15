@@ -157,7 +157,7 @@ class Enigma
     crack_rotation_3(output)
     crack_rotation_4(output)
     select_rotation_for_last_symbol(output)
-    create_all_character_map_creations
+    create_all_character_map_creations_for_decrypt_crack
     rotate_message(output)
   end
 
@@ -206,18 +206,31 @@ class Enigma
   end
 
   def select_rotation_for_last_symbol(output)
-    @total_rotation_array = [@total_rotation_1, @total_rotation_2, @total_rotation_3, @total_rotation_4]
+    @total_rotation_array = [@total_rotation_4, @total_rotation_3, @total_rotation_2, @total_rotation_1]
     remainder = output.chars.length % 4
-    if remainder == 0
-      @total_rotation_array.rotate!
-    elsif remainder == 1
-      @total_rotation_array.rotate!.rotate!
-    elsif remainder == 2
+    if remainder == 1
       @total_rotation_array.rotate!.rotate!.rotate!
-    else
-      @total_rotation_array
+    elsif remainder == 2
+      @total_rotation_array.rotate!.rotate!
+    elsif remainder == 3
+      @total_rotation_array.rotate!
     end
   end
 
+  def create_all_character_map_creations_for_decrypt_crack
+    @encryption_character_maps = @total_rotation_array.map do |current_rotation|
+      calculate_single_character_map_for_decrypt_crack(current_rotation)
+    end
+  end
+
+  def calculate_single_character_map_for_decrypt_crack(current_rotation)
+    current_encryption_map = @base_character_map.transform_values.with_index do |current_value, current_index|
+      value_to_be_index = current_index - current_rotation
+      while value_to_be_index < 0
+        value_to_be_index += 84
+      end
+      @base_character_map.values[value_to_be_index]
+    end
+  end
 
 end

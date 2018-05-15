@@ -1,6 +1,8 @@
 require 'date'
 
 class Offset
+  attr_reader :date_number
+
   def initialize
   end
 
