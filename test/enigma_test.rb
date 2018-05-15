@@ -1,7 +1,5 @@
 require './test/test_helper'
 require './lib/enigma'
-require './lib/key'
-require './lib/offset'
 
 class EnigmaTest < Minitest::Test
   def test_does_it_exist
