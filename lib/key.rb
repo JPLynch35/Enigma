@@ -15,7 +15,7 @@ class Key
   def calculate_base_rotation(encrypt_key)
     generate_key(encrypt_key)
     4.times.map do |i|
-      [@key[i-1], @key[i]].join.to_i
+      [@key[i], @key[i+1]].join.to_i
     end
   end
 end
