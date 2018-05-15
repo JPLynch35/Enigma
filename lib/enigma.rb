@@ -1,11 +1,12 @@
-require 'lib/key'
-require 'lib/offset'
+require './lib/key'
+require './lib/offset'
+
+require 'pry'
 
 class Enigma
-
   def initialize
     @key_for_code = Key.new
-    @date_for_code = Offset.new
+    @offset_for_code = Offset.new
     @base_character_map = {
                     "A" => "A",
                     "B" => "B",
@@ -90,25 +91,19 @@ class Enigma
                     ":" => ":",
                     "/" => "/",
                     "?" => "?",
-                    "\\" => "\\",
                     "|" => "|"
-                     }
+                    }
   end
 
   def encrypt(my_message, encrypt_key = 'random', encrypt_date = 'today')
+    @offset_array = @offset_for_code.calculate_offset(encrypt_date)
     @base_rotation_array = @key_for_code.calculate_base_rotation(encrypt_key)
-    @offset_array = @date_for_code.calculate_offset(encrypt_date)
-    add_base_rotations_and_offsets
+    calculate_total_rotations
     create_all_character_map_creations
-    encrypted_message = []
-    my_message_array = my_message.chars
-    my_message_array.each_with_index do |character, index|
-      utilize_correct_character_map(character, index)
-    end
-    encrypted_message.join
+    rotate_message(my_message)
   end
 
-  def add_base_rotations_and_offsets
+  def calculate_total_rotations
     a_total_rotation = @base_rotation_array[0] + @offset_array[0]
     b_total_rotation = @base_rotation_array[1] + @offset_array[1]
     c_total_rotation = @base_rotation_array[2] + @offset_array[2]
@@ -117,42 +112,112 @@ class Enigma
   end
 
   def create_all_character_map_creations
-    # runs through all rotations (a thru d) and calls upon calculate_character_map to create the character maps, stores all 4 in an array
     @encryption_character_maps = @total_rotation_array.map do |current_rotation|
-      calculate_single_character_map
+      calculate_single_character_map(current_rotation)
     end
   end
 
-  def calculate_single_character_map
-    # creates the encryption character map for each rotation (set current rotation equal to a_total_rotation, then b_total_rotation, etc)
+  def calculate_single_character_map(current_rotation)
     current_encryption_map = @base_character_map.transform_values.with_index do |current_value, current_index|
       value_to_be_index = current_index + current_rotation
-      while value_to_be_index > 84
-        value_to_be_index -= 85
+      while value_to_be_index > 83
+        value_to_be_index -= 84
       end
       @base_character_map.values[value_to_be_index]
     end
-    current_encryption_map
   end
 
   def utilize_correct_character_map(character, index)
     if index % 4 == 0
-      encrypted_message << @encryption_character_maps[0][character]
+      @message << @encryption_character_maps[0][character]
     elsif index % 4 == 1
-      encrypted_message << @encryption_character_maps[1][character]
+      @message << @encryption_character_maps[1][character]
     elsif index % 4 == 2
-      encrypted_message << @encryption_character_maps[2][character]
+      @message << @encryption_character_maps[2][character]
     elsif index % 4 == 3
-      encrypted_message << @encryption_character_maps[3][character]
+      @message << @encryption_character_maps[3][character]
     end
+  end
+
+  def rotate_message(my_message)
+    @message = []
+    my_message_array = my_message.chars
+    my_message_array.each_with_index do |character, index|
+      utilize_correct_character_map(character, index)
+    end
+    @message.join
+  end
 
   def decrypt
   end
 
-  def crack
+  def crack(output, encrypt_date = 'today')
+    crack_rotation_1(output)
+    crack_rotation_2(output)
+    crack_rotation_3(output)
+    crack_rotation_4(output)
+    select_rotation_for_last_symbol(output)
+    create_all_character_map_creations
+    rotate_message(output)
   end
 
-  def create_shift
-    #combine base_rotation and offset into [11, 22, 33, 44]
+  def crack_rotation_1(output)
+    index_of_1_period = @base_character_map.keys.index(".")
+    encrypted_letter_for_1_period = output.chars[-1]
+    index_of_1_encrypted_letter = @base_character_map.keys.index(encrypted_letter_for_1_period)
+    @total_rotation_1 = index_of_1_encrypted_letter - index_of_1_period
+    # @total_rotation_1 =  index_of_1_period - index_of_1_encrypted_letter
+    if @total_rotation_1 < 0
+      @total_rotation_1 += 84
+    end
   end
+
+  def crack_rotation_2(output)
+    index_of_2_period = @base_character_map.keys.index(".")
+    encrypted_letter_for_2_period = output.chars[-2]
+    index_of_2_encrypted_letter = @base_character_map.keys.index(encrypted_letter_for_2_period)
+    @total_rotation_2 = index_of_2_encrypted_letter - index_of_2_period
+    # @total_rotation_2 =  index_of_2_period - index_of_2_encrypted_letter
+    if @total_rotation_2 < 0
+      @total_rotation_2 += 84
+    end
+  end
+
+  def crack_rotation_3(output)
+    index_of_3_d = @base_character_map.keys.index("d")
+    encrypted_letter_for_3_d = output.chars[-3]
+    index_of_3_encrypted_letter = @base_character_map.keys.index(encrypted_letter_for_3_d)
+    @total_rotation_3 = index_of_3_encrypted_letter - index_of_3_d
+    # @total_rotation_3 =  index_of_3_d - index_of_3_encrypted_letter
+    if @total_rotation_3 < 0
+      @total_rotation_3 += 84
+    end
+  end
+
+  def crack_rotation_4(output)
+    index_of_4_n = @base_character_map.keys.index("n")
+    encrypted_letter_for_4_n = output.chars[-4]
+    index_of_4_encrypted_letter = @base_character_map.keys.index(encrypted_letter_for_4_n)
+    @total_rotation_4 = index_of_4_encrypted_letter - index_of_4_n
+    # @total_rotation_4 =  index_of_4_n - index_of_4_encrypted_letter
+    if @total_rotation_4 < 0
+      @total_rotation_4 += 84
+    end
+  end
+
+  def select_rotation_for_last_symbol(output)
+    @total_rotation_array = [@total_rotation_1, @total_rotation_2, @total_rotation_3, @total_rotation_4]
+    remainder = output.chars.length % 4
+    if remainder == 0
+      @total_rotation_array.rotate!
+    elsif remainder == 1
+      @total_rotation_array.rotate!.rotate!
+    elsif remainder == 2
+      @total_rotation_array.rotate!.rotate!.rotate!
+    else
+      @total_rotation_array
+    end
+  end
+
+
 end
