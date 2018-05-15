@@ -1,7 +1,6 @@
 require 'date'
 
 class Offset
-
   def initialize
   end
 
@@ -17,10 +16,9 @@ class Offset
     @date_number = (day + month + year).to_i
   end
 
-  def calculate_offset(date)
-    generate_date_number(date)
-    squared_time_array = (@date_number**2).to_s.chars
-    offset = squared_time_array[-4..-1]
+  def calculate_offset(encrypt_date)
+    generate_date_number(encrypt_date)
+    offset = (@date_number**2)
+    offset.digits.reverse.last(4)
   end
-
 end
