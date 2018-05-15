@@ -148,7 +148,12 @@ class Enigma
     @message.join
   end
 
-  def decrypt
+  def decrypt(output, encrypt_key = 'random', encrypt_date = 'today')
+    @base_rotation_array = @key_for_code.calculate_base_rotation(encrypt_key)
+    @offset_array = @offset_for_code.calculate_offset(encrypt_date)
+    calculate_total_rotations
+    create_all_character_map_creations_for_decrypt_crack
+    rotate_message(output)
   end
 
   def crack(output, encrypt_date = 'today')
