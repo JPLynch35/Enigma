@@ -8,7 +8,7 @@ e = Enigma.new
 
 output = File.new("./text/" + encrypted_file, "w+")
 File.new("./text/" + message_file).each_line do |line|
-  output.puts e.encrypt(line)
+  output.puts e.encrypt(line.chomp)
 end
 
 puts "Created 'encrypted.txt' with the key #{e.encrypt_key} and date #{e.encrypt_date}"

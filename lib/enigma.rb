@@ -169,7 +169,6 @@ class Enigma
     create_all_character_map_creations_for_decrypt_crack
     calculate_crack_base_rotation_array
     caculate_5_digit_key
-    @encrypt_key = @key_for_code.key
     rotate_message(output)
   end
 
