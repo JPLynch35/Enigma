@@ -1,12 +1,10 @@
 class Key
-
   def initialize
   end
 
   def generate_key(encrypt_key)
     if encrypt_key == 'random'
-      key = 5.times.map{rand(10)}
-      @key = key.join
+      @key = 5.times.map{rand(10)}.join
     else
       @key = encrypt_key
     end
@@ -18,5 +16,4 @@ class Key
       [@key[i-1], @key[i]].join
     end
   end
-
 end
