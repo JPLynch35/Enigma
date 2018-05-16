@@ -3,7 +3,7 @@ require 'date'
 class Offset
   attr_reader :date_number
 
-  def initialize(encrypt_key)
+  def initialize(encrypt_date)
     @date_number = nil
     generate_date_number(encrypt_date)
   end
