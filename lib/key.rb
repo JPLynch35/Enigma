@@ -1,8 +1,8 @@
 class Key
   attr_reader :key
 
-  def initialize(ecrypt_key)
-    @key = nil 
+  def initialize(encrypt_key)
+    @key = nil
     generate_key(encrypt_key)
   end
 

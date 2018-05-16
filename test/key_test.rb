@@ -4,21 +4,20 @@ require './lib/key'
 
 class KeyTest < Minitest::Test
   def test_key_exists
-    k = Key.new
+    k = Key.new("54321")
 
     assert_instance_of Key, k
   end
 
   def test_can_calculate_four_base_rotations
-    k = Key.new
-    encrypt_key1 = "54321"
+    k = Key.new("54321")
 
-    assert_equal 4, k.calculate_base_rotation("54321").count
+    assert_equal 4, k.calculate_base_rotation.count
   end
 
   def test_base_rotations_have_two_digits
-    k = Key.new
-    base_rotation_array = k.calculate_base_rotation("54321")
+    k = Key.new("54321")
+    base_rotation_array = k.calculate_base_rotation
 
     assert_equal 2, base_rotation_array[0].digits.size
   end
