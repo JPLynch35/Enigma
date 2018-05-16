@@ -1,7 +1,12 @@
 class Key
   attr_reader :key
 
-  def initialize(encrypt_key)
+  def initialize(ecrypt_key)
+    @key = nil 
+    generate_key(encrypt_key)
+  end
+
+  def generate_key(encrypt_key)
     if encrypt_key == 'random'
       @key = 5.times.map{rand(10)}.join
     else

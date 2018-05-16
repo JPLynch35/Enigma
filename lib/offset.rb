@@ -3,7 +3,12 @@ require 'date'
 class Offset
   attr_reader :date_number
 
-  def initialize(encrypt_date)
+  def initialize(encrypt_key)
+    @date_number = nil
+    generate_date_number(encrypt_date)
+  end
+
+  def generate_date_number(encrypt_date)
     if encrypt_date == 'today' || encrypt_date == Date.today
       date = Date.today
       day = date.day.to_s.rjust(2, '0')
