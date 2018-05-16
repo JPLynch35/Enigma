@@ -1,4 +1,4 @@
-require 'test_helper'
+require '/test/test_helper'
 require './lib/offset'
 require 'pry'
 

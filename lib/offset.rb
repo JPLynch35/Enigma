@@ -4,6 +4,7 @@ class Offset
   attr_reader :date_number
 
   def initialize
+    @date_number = date_number
   end
 
   def generate_date_number(encrypt_date)

@@ -2,6 +2,7 @@ class Key
   attr_reader :key
 
   def initialize
+    @key = key  
   end
 
   def generate_key(encrypt_key)
