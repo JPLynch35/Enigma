@@ -171,7 +171,6 @@ class Enigma
     total_rotation_array = select_rotation_for_last_symbol(output, total_rotation_1, total_rotation_2, total_rotation_3, total_rotation_4)
     create_all_character_map_creations_for_decrypt_crack(total_rotation_array)
     base_rotation_array = calculate_crack_base_rotation_array(offset_array, total_rotation_array)
-    base_rotation_array = check_base_rotation_array_for_single_digits(base_rotation_array)
     caculate_5_digit_key(base_rotation_array)
     rotate_message(output)
   end
@@ -255,6 +254,17 @@ class Enigma
     end
   end
 
+  def caculate_5_digit_key(base_rotation_array)
+    combined_array = base_rotation_array.join
+    if combined_array[1] == combined_array[2] && combined_array[4] == combined_array[4] && combined_array[5] == combined_array[6]
+      @encrypt_key = combined_array[0] + combined_array[1] + combined_array[3] + combined_array[5] + combined_array[7]
+    else
+      base_rotation_array = check_base_rotation_array_for_single_digits(base_rotation_array)
+      combined_array = base_rotation_array.join
+      @encrypt_key = combined_array[0] + combined_array[1] + combined_array[3] + combined_array[5] + combined_array[7]
+    end
+  end
+
   def check_base_rotation_array_for_single_digits(base_rotation_array)
     corrected_base_rotation_array = base_rotation_array.map do |rotation|
       if rotation.to_s.length == 1
@@ -264,15 +274,6 @@ class Enigma
       end
     end
     return corrected_base_rotation_array
-  end
-
-  def caculate_5_digit_key(base_rotation_array)
-    combined_array = base_rotation_array.join
-    if combined_array[1] == combined_array[2] && combined_array[4] == combined_array[4] && combined_array[5] == combined_array[6]
-      @encrypt_key = combined_array[0] + combined_array[1] + combined_array[3] + combined_array[5] + combined_array[7]
-    else
-      @encrypt_key = "**Manually break code through additions of 84 to rotations. Base rotions are #{base_rotation_array}.**"
-    end
   end
 
 end
