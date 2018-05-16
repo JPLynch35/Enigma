@@ -271,7 +271,7 @@ class Enigma
     if combined_array[1] == combined_array[2] && combined_array[4] == combined_array[4] && combined_array[5] == combined_array[6]
       @encrypt_key = combined_array[0] + combined_array[1] + combined_array[3] + combined_array[5] + combined_array[7]
     else
-      @encrypt_key = "Error, manually break code through additions of 84 to rotations."
+      @encrypt_key = "**Manually break code through additions of 84 to rotations. Base rotions are #{base_rotation_array}.**"
     end
   end
 

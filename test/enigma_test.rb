@@ -215,7 +215,7 @@ class EnigmaTest < Minitest::Test
   def test_caculate_5_digit_key_returns_error_message
     e = Enigma.new
     base_rotation_array = [13, 23, 37, 45]
-    expected = "Error, manually break code through additions of 84 to rotations."
+    expected = "**Manually break code through additions of 84 to rotations. Base rotions are #{base_rotation_array}.**"
     encrypt_key = e.caculate_5_digit_key(base_rotation_array)
 
     assert_equal expected, encrypt_key
