@@ -170,8 +170,8 @@ class Enigma
     total_rotation_4 = crack_rotation_4(output)
     total_rotation_array = select_rotation_for_last_symbol(output, total_rotation_1, total_rotation_2, total_rotation_3, total_rotation_4)
     create_all_character_map_creations_for_decrypt_crack(total_rotation_array)
-    calculate_crack_base_rotation_array(offset_array, total_rotation_array)
-    caculate_5_digit_key
+    base_rotation_array = calculate_crack_base_rotation_array(offset_array, total_rotation_array)
+    caculate_5_digit_key(base_rotation_array)
     rotate_message(output)
   end
 
@@ -248,14 +248,14 @@ class Enigma
     end
   end
 
-  def calculate_crack_base_rotation_array(offset_array , total_rotation_array)
-    @base_rotation_array = total_rotation_array.map.with_index do |rotation, i|
+  def calculate_crack_base_rotation_array(offset_array, total_rotation_array)
+    total_rotation_array.map.with_index do |rotation, i|
       rotation - offset_array[i]
     end
   end
 
-  def caculate_5_digit_key
-    combined_array = @base_rotation_array.join
+  def caculate_5_digit_key(base_rotation_array)
+    combined_array = base_rotation_array.join
     if combined_array[1] == combined_array[2] && combined_array[4] == combined_array[4] && combined_array[5] == combined_array[6]
       @encrypt_key = combined_array[0] + combined_array[1] + combined_array[3] + combined_array[5] + combined_array[7]
     else
