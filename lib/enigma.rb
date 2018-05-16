@@ -258,9 +258,9 @@ class Enigma
   def check_base_rotation_array_for_single_digits(base_rotation_array)
     corrected_base_rotation_array = base_rotation_array.map do |rotation|
       if rotation.to_s.length == 1
-        "0" + rotation.to_s
+        rotation + 84
       else
-        rotation.to_s
+        rotation
       end
     end
     return corrected_base_rotation_array
