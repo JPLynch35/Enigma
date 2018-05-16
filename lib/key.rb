@@ -1,8 +1,9 @@
 class Key
   attr_reader :key
 
-  def initialize
-    @key = key  
+  def initialize(ecrypt_key)
+    @key = nil 
+    generate_key(encrypt_key)
   end
 
   def generate_key(encrypt_key)
@@ -13,8 +14,7 @@ class Key
     end
   end
 
-  def calculate_base_rotation(encrypt_key)
-    generate_key(encrypt_key)
+  def calculate_base_rotation
     4.times.map do |i|
       [@key[i], @key[i+1]].join.to_i
     end

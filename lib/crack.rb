@@ -9,7 +9,7 @@ e = Enigma.new
 
 output = File.new("./text/" + cracked_file, "w+")
 File.new("./text/" + encrypted_file).each_line do |line|
-  output.puts e.crack(line, encrypt_date)
+  output.puts e.crack(line.chomp, encrypt_date)
 end
 
-puts "Created 'decrypted.txt' with the key #{e.encrypt_key} and date #{encrypt_date}"
+puts "Created 'cracked.txt' with the key #{e.encrypt_key} and date #{encrypt_date}"
