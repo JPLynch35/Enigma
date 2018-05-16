@@ -194,6 +194,15 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, calc
   end
 
+  def test_check_base_rotation_array_for_single_digits
+    e = Enigma.new
+    base_rotation_array = [2, 23, 4, 45]
+    expected = ["02", "23", "04", "45"]
+    corrected_base_rotation_array = e.check_base_rotation_array_for_single_digits(base_rotation_array)
+
+    assert_equal expected, corrected_base_rotation_array
+  end
+
   def test_caculate_5_digit_key_combines_correctly
     e = Enigma.new
     base_rotation_array = [12, 23, 34, 45]
