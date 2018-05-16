@@ -1,14 +1,52 @@
-require 'test_helper'
+require './test/test_helper'
+require './lib/enigma'
 require './lib/key'
 
 class KeyTest < Minitest::Test
+  def test_can_accept_given_key
+    e1 = Enigma.new
+    e2 = Enigma.new
+    encrypt1 = e1.encrypt("This works!..end..", "12345", Date.today)
+    encrypt2 = e2.encrypt("And this is also now encrypted!..end..", "54321", Date.today)
 
-  def test_generates_5_digit_number
-    new_key = Key.new
-
-    assert_equal 5, new_key.length
+    assert_equal "12345", e1.encrypt_key
+    assert_equal "54321", e2.encrypt_key
   end
 
-  def test_can_generate_4_keys
+  def test_generates_five_digit_random_number
+    e1 = Enigma.new
+    e2 = Enigma.new
+    encrypt1 = e1.encrypt("This works!..end..")
+    encrypt2 = e2.encrypt("And this is also now encrypted!..end..")
+
+    assert_equal 5, e1.encrypt_key.length
+    assert_equal 5, e2.encrypt_key.length
   end
+
+  def test_can_generate_four_base_rotations
+    e1 = Enigma.new
+    e2 = Enigma.new
+    encrypt1 = e1.encrypt("This works!..end..")
+    encrypt2 = e2.encrypt("And this is also now encrypted!..end..")
+
+    assert_equal 5, e1.encrypt_key.length
+    assert_equal 5, e2.encrypt_key.length
+  end
+  #
+  # def test_base_rotations_have_two_digits
+  # end
 end
+#
+# e1 = Enigma.new
+# e2 = Enigma.new
+# e3 = Enigma.new
+# e4 = Enigma.new
+# encrypt1 = e1.encrypt("This works!..end..", "12345", Date.today)
+# encrypt2 = e2.encrypt("And this is also now encrypted!..end..", "54321", Date.today)
+# encrypt3 = e3.encrypt("Or is it? It is!..end..", "10405", Date.today)
+# encrypt4 = e4.encrypt("Hello?..end..", "11111")
+#
+# assert_equal "n8^J?)]I5^Rc|5[>|F", encrypt1
+# assert_equal " B.DX;$%o:>DE|>!oB)(o](2VM[^I[PEp](3pZ", encrypt2
+# assert_equal "gyUr %]3Q%y3:pC)/^*wv^V", encrypt3
+# assert_equal "asy18M]>x2q>?", encrypt4
