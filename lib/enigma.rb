@@ -171,6 +171,7 @@ class Enigma
     total_rotation_array = select_rotation_for_last_symbol(output, total_rotation_1, total_rotation_2, total_rotation_3, total_rotation_4)
     create_all_character_map_creations_for_decrypt_crack(total_rotation_array)
     base_rotation_array = calculate_crack_base_rotation_array(offset_array, total_rotation_array)
+    base_rotation_array = check_base_rotation_array_for_single_digits(base_rotation_array)
     caculate_5_digit_key(base_rotation_array)
     rotate_message(output)
   end
@@ -252,6 +253,17 @@ class Enigma
     total_rotation_array.map.with_index do |rotation, i|
       rotation - offset_array[i]
     end
+  end
+
+  def check_base_rotation_array_for_single_digits(base_rotation_array)
+    corrected_base_rotation_array = base_rotation_array.map do |rotation|
+      if rotation.to_s.length == 1
+        "0" + rotation.to_s
+      else
+        rotation.to_s
+      end
+    end
+    return corrected_base_rotation_array
   end
 
   def caculate_5_digit_key(base_rotation_array)
