@@ -194,15 +194,6 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, calc
   end
 
-  def test_check_base_rotation_array_for_single_digits
-    e = Enigma.new
-    base_rotation_array = [2, 23, 4, 45]
-    expected = ["02", "23", "04", "45"]
-    corrected_base_rotation_array = e.check_base_rotation_array_for_single_digits(base_rotation_array)
-
-    assert_equal expected, corrected_base_rotation_array
-  end
-
   def test_caculate_5_digit_key_combines_correctly
     e = Enigma.new
     base_rotation_array = [12, 23, 34, 45]
@@ -212,10 +203,10 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, encrypt_key
   end
 
-  def test_caculate_5_digit_key_returns_error_message
+  def test_check_base_rotation_array_for_single_digits_adds_84
     e = Enigma.new
-    base_rotation_array = [13, 23, 37, 45]
-    expected = "**Manually break code through additions of 84 to rotations. Base rotions are #{base_rotation_array}.**"
+    base_rotation_array = [74, 41, 19, 3]
+    expected = "74197"
     encrypt_key = e.caculate_5_digit_key(base_rotation_array)
 
     assert_equal expected, encrypt_key
