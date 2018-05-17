@@ -256,11 +256,10 @@ class Enigma
 
   def caculate_5_digit_key(base_rotation_array)
     combined_array = base_rotation_array.join
-    if combined_array[1] == combined_array[2] && combined_array[4] == combined_array[4] && combined_array[5] == combined_array[6]
+    if combined_array[1] == combined_array[2] && combined_array[3] == combined_array[4] && combined_array[5] == combined_array[6]
       @encrypt_key = combined_array[0] + combined_array[1] + combined_array[3] + combined_array[5] + combined_array[7]
     else
-      base_rotation_array = check_base_rotation_array_for_single_digits(base_rotation_array)
-      combined_array = base_rotation_array.join
+      combined_array = check_base_rotation_array_for_single_digits(base_rotation_array).join
       @encrypt_key = combined_array[0] + combined_array[1] + combined_array[3] + combined_array[5] + combined_array[7]
     end
   end
@@ -268,9 +267,9 @@ class Enigma
   def check_base_rotation_array_for_single_digits(base_rotation_array)
     corrected_base_rotation_array = base_rotation_array.map do |rotation|
       if rotation.to_s.length == 1
-        rotation + 84
+        "0" + rotation.to_s
       else
-        rotation
+        rotation.to_s
       end
     end
     return corrected_base_rotation_array

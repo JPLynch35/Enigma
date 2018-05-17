@@ -1,6 +1,5 @@
 require './test/test_helper'
 require './lib/offset'
-require 'pry'
 
 class OffsetTest < Minitest::Test
   def test_offset_exists
@@ -13,6 +12,12 @@ class OffsetTest < Minitest::Test
     o = Offset.new(Date.today)
 
     assert_equal Integer, o.generate_date_number(Date.today).class
+  end
+
+  def test_date_number_created_from_encrypt_date
+    o = Offset.new(160518)
+
+    assert_equal 160518, o.date_number
   end
 
   def test_date_number_six_digit_format
