@@ -20,6 +20,12 @@ class OffsetTest < Minitest::Test
     assert_equal 160518, o.date_number
   end
 
+  def test_date_number_is_an_integer
+    o = Offset.new(160518)
+
+    assert_equal Integer, o.date_number.class
+  end
+
   def test_date_number_six_digit_format
     o = Offset.new(Date.today)
     o.generate_date_number(Date.today)
