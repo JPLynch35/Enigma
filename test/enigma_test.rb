@@ -130,7 +130,6 @@ class EnigmaTest < Minitest::Test
 
   def test_crack_rotation_1_for_1_rotation
     e = Enigma.new
-    output = "oe,,"
     rotation_1 = e.crack_rotation_1("oe,,")
 
     assert_equal 1, rotation_1
@@ -138,7 +137,6 @@ class EnigmaTest < Minitest::Test
 
   def test_crack_rotation_2_for_1_rotation
     e = Enigma.new
-    output = "oe,,"
     rotation_2 = e.crack_rotation_2("oe,,")
 
     assert_equal 1, rotation_2
@@ -146,7 +144,6 @@ class EnigmaTest < Minitest::Test
 
   def test_crack_rotation_3_for_1_rotation
     e = Enigma.new
-    output = "oe,,"
     rotation_3 = e.crack_rotation_3("oe,,")
 
     assert_equal 1, rotation_3
@@ -154,7 +151,6 @@ class EnigmaTest < Minitest::Test
 
   def test_crack_rotation_4_for_1_rotation
     e = Enigma.new
-    output = "oe,,"
     rotation_4 = e.crack_rotation_4("oe,,")
 
     assert_equal 1, rotation_4
@@ -203,10 +199,10 @@ class EnigmaTest < Minitest::Test
     assert_equal expected, encrypt_key
   end
 
-  def test_check_base_rotation_array_for_single_digits_adds_84
+  def test_check_base_rotation_array_for_single_digits
     e = Enigma.new
-    base_rotation_array = [74, 41, 19, 3]
-    expected = "74197"
+    base_rotation_array = [70, 2, 20, 3]
+    expected = "70203"
     encrypt_key = e.caculate_5_digit_key(base_rotation_array)
 
     assert_equal expected, encrypt_key
